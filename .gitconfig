@@ -1,0 +1,16 @@
+[user]
+	email = amass1212@gmail.com
+	name = Andrew Mass
+[core]
+	editor = vim
+[color]
+  ui = true
+[alias]
+  b = branch
+  co = checkout
+  st = status
+  df = diff
+[push]
+  default = current
+[pull]
+  default = current
