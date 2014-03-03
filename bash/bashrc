@@ -1,6 +1,6 @@
 # Load .bashrc_gs
-if [[ -f .bashrc_gs  ]]; then
-  source .bashrc_gs
+if [[ -f .dotfiles/bash/bashrc_gs  ]]; then
+  source .dotfiles/bash/bashrc_gs
 fi
 
 # General Aliases
