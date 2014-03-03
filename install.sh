@@ -35,6 +35,7 @@ ZSHDIR=$(pwd)/zsh
 # Installs vim
 cd ~
 ln -i -s $DOTDIR/vimrc .vimrc
+ln -i -s $VIMDIR .vim
 cd $VIMDIR
 git submodule update --init
 
