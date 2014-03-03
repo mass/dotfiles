@@ -17,8 +17,6 @@ ln -i -s $BASHDIR/bashrc ~/.bashrc
 ln -i -s $DOTDIR/vimrc ~/.vimrc
 ln -i -s $VIMDIR ~/.vim
 cd $VIMDIR
-rm vim
-git submodule update --init
 
 # Installs redshift.conf
 if [ ! -d ~/.config ]; then
@@ -28,3 +26,9 @@ ln -i -s $DOTDIR/redshift.conf ~/.config/redshift.conf
 
 # Installs .gitconfig
 ln -i -s $DOTDIR/gitconfig ~/.gitconfig
+
+# Pulls down submodules
+cd $DOTDIR
+git submodule update --init
+cd $VIMDIR
+git submodule update --init
