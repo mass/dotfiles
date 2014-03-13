@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Installs @mass's configuration for zsh, bash, vim, and more. 
+# Installs @mass's configuration for zsh, bash, vim, and more.
 
 DOTDIR=$(pwd)
 VIMDIR=$(pwd)/vim
@@ -15,7 +15,7 @@ ln -i -s $BASHDIR/bashrc ~/.bashrc
 
 # Installs vim
 ln -i -s $VIMDIR/vimrc ~/.vimrc
-ln -i -s $VIMDIR ~/.vim
+ln -i -s "$VIMDIR" ~/.vim
 
 # Installs redshift.conf
 if [ ! -d ~/.config ]; then
