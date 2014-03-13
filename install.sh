@@ -14,9 +14,8 @@ ln -i -s $ZSHDIR/zshrc ~/.zshrc
 ln -i -s $BASHDIR/bashrc ~/.bashrc
 
 # Installs vim
-ln -i -s $DOTDIR/vimrc ~/.vimrc
+ln -i -s $VIMDIR/vimrc ~/.vimrc
 ln -i -s $VIMDIR ~/.vim
-cd $VIMDIR
 
 # Installs redshift.conf
 if [ ! -d ~/.config ]; then
