@@ -15,6 +15,9 @@ ln -i -s $BASHDIR/bashrc ~/.bashrc
 
 # Installs vim
 ln -i -s $VIMDIR/vimrc ~/.vimrc
+if [ -h ~/.vim ]; then
+  rm ~/.vim
+fi
 ln -i -s "$VIMDIR" ~/.vim
 
 # Installs redshift.conf
