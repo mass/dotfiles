@@ -2,16 +2,20 @@
 
 # Installs @mass's configuration for zsh, bash, vim, and more.
 
+# TODO:
+#  -Set up upstream remotes for updating.
+#  -Add cli flag for using read-only remotes (for other users)
+
 DOTDIR=$(pwd)
 VIMDIR=$(pwd)/vim
 BASHDIR=$(pwd)/bash
 ZSHDIR=$(pwd)/zsh
 
-# Installs zshrc
-ln -i -s $ZSHDIR/zshrc ~/.zshrc
-
 # Installs bashrc
 ln -i -s $BASHDIR/bashrc ~/.bashrc
+
+# Installs zshrc
+ln -i -s $ZSHDIR/zshrc ~/.zshrc
 
 # Installs vim
 ln -i -s $VIMDIR/vimrc ~/.vimrc
@@ -34,3 +38,15 @@ cd $DOTDIR
 git submodule update --init
 cd $VIMDIR
 git submodule update --init
+
+# Update vim
+cd $VIMDIR
+git checkout master
+git pull origin master
+git submodule foreach git checkout master
+git submodule foreach git pull origin master
+
+# Update zsh
+cd $ZSHDIR
+git checkout master
+git pull origin master
