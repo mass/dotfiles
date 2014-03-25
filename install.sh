@@ -2,10 +2,6 @@
 
 # Installs @mass's configuration for zsh, bash, vim, and more.
 
-# TODO:
-#  -Set up upstream remotes for updating.
-#  -Add cli flag for using read-only remotes (for other users)
-
 DOTDIR=$(pwd)
 VIMDIR=$(pwd)/vim
 BASHDIR=$(pwd)/bash
@@ -33,6 +29,17 @@ ln -i -s $DOTDIR/redshift.conf ~/.config/redshift.conf
 # Installs .gitconfig
 ln -i -s $DOTDIR/gitconfig ~/.gitconfig
 
+# Replace remotes with read-only URLs for other users.
+cd $DOTDIR
+while getopts "o" opt; do
+  case $opt in
+    o)
+      echo "Installing read-only remotes."
+      sed -i "s/git@github.com:/git:\/\/github.com\//" .gitmodules
+      ;;
+  esac
+done
+
 # Pulls down submodules
 cd $DOTDIR
 git submodule update --init
@@ -45,8 +52,12 @@ git checkout master
 git pull origin master
 git submodule foreach git checkout master
 git submodule foreach git pull origin master
+git remote add upstream git://github.com/avp/vimfiles.git
+git fetch
 
 # Update zsh
 cd $ZSHDIR
 git checkout master
 git pull origin master
+git remote add upstream git://github.com/robbyrussell/oh-my-zsh.git
+git fetch
