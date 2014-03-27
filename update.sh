@@ -20,5 +20,7 @@ git submodule foreach git pull origin master
 
 cd $ZSHDIR
 git pull origin master
+git submodule update
+git submodule foreach git pull origin master
 
 cd $DOTDIR
