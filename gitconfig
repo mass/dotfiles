@@ -3,14 +3,25 @@
 	name = Andrew Mass
 [core]
 	editor = vim
+  whitespace = fix,-indent-with-non-tab,cr-at-eol
+[web]
+  browser = google-chrome
 [color]
-  ui = true
-[alias]
-  b = branch
-  co = checkout
-  st = status
-  df = diff
+	ui = 1
+  interactive = true
 [push]
-  default = current
-[pull]
-  default = current
+  default = matching
+[help]
+  autocorrect = 1
+[diff]
+  tool = vimdiff
+[difftool]
+  prompt = false
+[alias]
+  amend = commit --amend
+  aa = add --all
+  b = branch
+  ci = commit --verbose
+  co = checkout
+  df = diff
+	st = status -sb
