@@ -1,22 +1,12 @@
 [user]
 	email = amass1212@gmail.com
 	name = Andrew Mass
+
 [core]
 	editor = vim
-  whitespace = fix,-indent-with-non-tab,cr-at-eol
-[web]
-  browser = google-chrome
-[color]
-	ui = 1
-  interactive = true
-[push]
-  default = matching
-[help]
-  autocorrect = 1
-[diff]
-  tool = vimdiff
-[difftool]
-  prompt = false
+  pager = less
+  whitespace = blank-at-eol,space-before-tab,fix,-indent-with-non-tab,cr-at-eol
+
 [alias]
   amend = commit --amend
   aa = add --all
@@ -25,3 +15,66 @@
   co = checkout
   df = diff
 	st = status -sb
+
+[color]
+  branch = always
+  diff = always
+  grep = always
+  interactive = always
+  pager = true
+  showbranch = always
+  status = always
+	ui = always
+
+; format: foreground background attribute
+; colors: normal, black, red, green, yellow, blue, magenta, cyan, white
+; attributes: bold, dim, ul, blink, reverse
+[color "branch"]
+  current = normal normal
+  local = normal normal
+  remote = normal normal
+  upstream = normal normal
+  plain = normal normal
+[color "diff"]
+  plain = normal normal
+	meta = normal normal
+  frag = normal normal
+  func = normal normal
+  old = red normal bold
+  new = green normal bold
+  commit = normal normal
+  whitespace = normal normal
+[color "status"]
+  header = white normal bold
+  added = normal normal
+  updated = normal normal
+  changed = normal normal
+  untracked = normal normal
+  branch = normal normal
+  nobranch = normal normal
+
+[column]
+  ui = auto
+
+[diff]
+  tool = vimdiff
+  algorithm = minimal
+
+[difftool]
+  prompt = false
+
+[help]
+  autocorrect = 1
+
+[merge]
+  tool = vim
+  stat = true
+
+[mergetool]
+  prompt = true
+
+[push]
+  default = current
+
+[web]
+  browser = google-chrome
