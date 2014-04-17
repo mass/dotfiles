@@ -37,6 +37,12 @@ while getopts "o" opt; do
       echo "Installing read-only remotes."
       sed -i "s/git@github.com:/git:\/\/github.com\//" .gitmodules
       ;;
+    e)
+      echo "Installing EWS-compatible configuration."
+      sed -i "s/set cryptmethod=blowfish//" ./vim/vimrc
+      sed -i "s/git status -sb/git status -s/" ./zsh/custom/base.zsh
+      sed -i "s/st = status -sb/st = status -s/" ./gitconfig
+      ;;
   esac
 done
 
