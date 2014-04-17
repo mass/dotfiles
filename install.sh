@@ -30,12 +30,15 @@ ln -i -s $DOTDIR/redshift.conf ~/.config/redshift.conf
 ln -i -s $DOTDIR/gitconfig ~/.gitconfig
 
 # Replace remotes with read-only URLs for other users.
-cd $DOTDIR
-while getopts "o" opt; do
+while getopts "oe" opt; do
   case $opt in
     o)
+      cd $DOTDIR
       echo "Installing read-only remotes."
       sed -i "s/git@github.com:/git:\/\/github.com\//" .gitmodules
+      ;;
+    e)
+      ON_EWS=true
       ;;
   esac
 done
@@ -55,18 +58,14 @@ git submodule foreach git pull origin master
 git remote add upstream git://github.com/avp/vimfiles.git
 git fetch
 
-# Fix configuration for EWS machines
-cd $DOTDIR
-while getopts "e" opt; do
-  case $opt in
-    e)
-      echo "Installing EWS-compatible configuration."
-      sed -i "s/set cryptmethod=blowfish//" ./vim/vimrc
-      sed -i "s/git status -sb/git status -s/" ./zsh/custom/base.zsh
-      sed -i "s/st = status -sb/st = status -s/" ./gitconfig
-      ;;
-  esac
-done
+# Fix configuration for EWS machines if -e was used
+if [ "$ON_EWS" = true ]; then
+  cd $DOTDIR
+  echo "Installing EWS-compatible configuration."
+  sed -i "s/set cryptmethod=blowfish//" ./vim/vimrc
+  sed -i "s/git status -sb/git status -s/" ./zsh/custom/base.zsh
+  sed -i "s/st = status -sb/st = status -s/" ./gitconfig
+fi
 
 # Update zsh
 cd $ZSHDIR
