@@ -31,17 +31,11 @@ ln -i -s $DOTDIR/gitconfig ~/.gitconfig
 
 # Replace remotes with read-only URLs for other users.
 cd $DOTDIR
-while getopts "oe" opt; do
+while getopts "o" opt; do
   case $opt in
     o)
       echo "Installing read-only remotes."
       sed -i "s/git@github.com:/git:\/\/github.com\//" .gitmodules
-      ;;
-    e)
-      echo "Installing EWS-compatible configuration."
-      sed -i "s/set cryptmethod=blowfish//" ./vim/vimrc
-      sed -i "s/git status -sb/git status -s/" ./zsh/custom/base.zsh
-      sed -i "s/st = status -sb/st = status -s/" ./gitconfig
       ;;
   esac
 done
@@ -60,6 +54,19 @@ git submodule foreach git checkout master
 git submodule foreach git pull origin master
 git remote add upstream git://github.com/avp/vimfiles.git
 git fetch
+
+# Fix configuration for EWS machines
+cd $DOTDIR
+while getopts "e" opt; do
+  case $opt in
+    e)
+      echo "Installing EWS-compatible configuration."
+      sed -i "s/set cryptmethod=blowfish//" ./vim/vimrc
+      sed -i "s/git status -sb/git status -s/" ./zsh/custom/base.zsh
+      sed -i "s/st = status -sb/st = status -s/" ./gitconfig
+      ;;
+  esac
+done
 
 # Update zsh
 cd $ZSHDIR
