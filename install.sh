@@ -31,7 +31,7 @@ ln -i -s $DOTDIR/gitconfig ~/.gitconfig
 
 # Replace remotes with read-only URLs for other users.
 cd $DOTDIR
-while getopts "o" opt; do
+while getopts "oe" opt; do
   case $opt in
     o)
       echo "Installing read-only remotes."
