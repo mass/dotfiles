@@ -15,11 +15,13 @@ git submodule foreach git submodule update
 
 cd $VIMDIR
 git pull origin master
+git pull upstream master
 git submodule update
 git submodule foreach git pull origin master
 
 cd $ZSHDIR
 git pull origin master
+git pull upstream master
 git submodule update
 git submodule foreach git pull origin master
 
