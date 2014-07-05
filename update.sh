@@ -4,25 +4,25 @@
 
 DOTDIR=$(pwd)
 VIMDIR=$(pwd)/vim
-BASHDIR=$(pwd)/bash
 ZSHDIR=$(pwd)/zsh
 
 cd $DOTDIR
+git checkout master
 git pull origin master
-git submodule update
-git submodule foreach git pull origin master
-git submodule foreach git submodule update
+git submodule update --rebase
 
 cd $VIMDIR
+git checkout master
 git pull origin master
 git pull upstream master
-git submodule update
+git submodule update --rebase
 git submodule foreach git pull origin master
 
 cd $ZSHDIR
+git checkout master
 git pull origin master
 git pull upstream master
-git submodule update
+git submodule update --rebase
 git submodule foreach git pull origin master
 
 cd $DOTDIR
