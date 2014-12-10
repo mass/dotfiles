@@ -29,6 +29,9 @@ ln -i -s $DOTDIR/redshift.conf ~/.config/redshift.conf
 # Installs .gitconfig
 ln -i -s $DOTDIR/gitconfig ~/.gitconfig
 
+# Installs .toprc
+ln -i -s $DOTDIR/toprc ~/.toprc
+
 # Replace remotes with read-only URLs for other users.
 while getopts "oe" opt; do
   case $opt in
