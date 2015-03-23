@@ -14,7 +14,7 @@ ln -i -s $BASHDIR/bashrc ~/.bashrc
 ln -i -s $ZSHDIR/zshrc ~/.zshrc
 
 # Installs vim
-ln -i -s $VIMDIR/vimrc ~/.vimrc
+ln -i -s $VIMDIR/vimrc.vim ~/.vimrc
 if [ -h ~/.vim ]; then
   rm ~/.vim
 fi
