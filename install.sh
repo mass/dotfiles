@@ -58,14 +58,12 @@ git checkout master
 git pull origin master
 git submodule foreach git checkout master
 git submodule foreach git pull origin master
-git remote add upstream git://github.com/avp/vimfiles.git
-git fetch
 
 # Fix configuration for EWS machines if -e was used
 if [ "$ON_EWS" = true ]; then
   cd $DOTDIR
   echo "Installing EWS-compatible configuration."
-  sed -i "s/set cryptmethod=blowfish//" ./vim/vimrc
+  sed -i "s/set cryptmethod=blowfish//" ./vim/vimrc.vim
   sed -i "s/git status -sb/git status -s/" ./zsh/custom/base.zsh
   sed -i "s/st = status -sb/st = status -s/" ./gitconfig
 fi
