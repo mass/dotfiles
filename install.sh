@@ -56,8 +56,6 @@ git submodule update --init
 cd $VIMDIR
 git checkout master
 git pull origin master
-git submodule foreach git checkout master
-git submodule foreach git pull origin master
 
 # Fix configuration for EWS machines if -e was used
 if [ "$ON_EWS" = true ]; then
