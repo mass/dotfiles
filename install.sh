@@ -32,6 +32,9 @@ ln -i -s $DOTDIR/gitconfig ~/.gitconfig
 # Installs .toprc
 ln -i -s $DOTDIR/toprc ~/.toprc
 
+# Installs .tmux.conf
+ln -i -s $DOTDIR/tmux.conf ~/.tmux.conf
+
 # Replace remotes with read-only URLs for other users.
 while getopts "oe" opt; do
   case $opt in
