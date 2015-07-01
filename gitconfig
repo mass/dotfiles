@@ -3,7 +3,8 @@
 	name = Andrew Mass
 
 [core]
-	editor = vim
+  ignorecase = false
+  editor = vim
   pager = less
   whitespace = blank-at-eol,space-before-tab,fix,-indent-with-non-tab,cr-at-eol
 
@@ -14,7 +15,7 @@
   ci = commit --verbose
   co = checkout
   df = diff
-	st = status -sb
+  st = status -sb
 
 [color]
   branch = always
@@ -24,7 +25,7 @@
   pager = true
   showbranch = always
   status = always
-	ui = always
+  ui = always
 
 ; format: foreground background attribute
 ; colors: normal, black, red, green, yellow, blue, magenta, cyan, white
@@ -37,7 +38,7 @@
   plain = normal normal
 [color "diff"]
   plain = normal normal
-	meta = normal normal
+  meta = normal normal
   frag = normal normal
   func = normal normal
   old = red normal bold

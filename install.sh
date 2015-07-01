@@ -1,4 +1,7 @@
 #!/bin/bash
+set -e
+GREEN="$(tput setaf 2)"
+RESET="$(tput sgr0)"
 
 # Installs @mass's configuration for zsh, bash, vim, and more.
 
@@ -7,41 +10,37 @@ VIMDIR=$(pwd)/vim
 BASHDIR=$(pwd)/bash
 ZSHDIR=$(pwd)/zsh
 
-# Installs bashrc
+# Installs bashrc, zshrc
+echo "${GREEN}Installing bashrc, zshrc${RESET}"
 ln -i -s $BASHDIR/bashrc ~/.bashrc
-
-# Installs zshrc
 ln -i -s $ZSHDIR/zshrc ~/.zshrc
 
 # Installs vim
+echo "${GREEN}Installing vim${RESET}"
 ln -i -s $VIMDIR/vimrc.vim ~/.vimrc
 if [ -h ~/.vim ]; then
   rm ~/.vim
 fi
 ln -i -s "$VIMDIR" ~/.vim
 
-# Installs redshift.conf
+# Installs redshift.conf, .gitconfig, .toprc, .tmux.conf
+echo "${GREEN}Installing config files${RESET}"
 if [ ! -d ~/.config ]; then
   mkdir ~/.config
 fi
 ln -i -s $DOTDIR/redshift.conf ~/.config/redshift.conf
-
-# Installs .gitconfig
 ln -i -s $DOTDIR/gitconfig ~/.gitconfig
-
-# Installs .toprc
 ln -i -s $DOTDIR/toprc ~/.toprc
-
-# Installs .tmux.conf
 ln -i -s $DOTDIR/tmux.conf ~/.tmux.conf
 
-# Replace remotes with read-only URLs for other users.
+# Get command line options
 while getopts "oe" opt; do
   case $opt in
     o)
+      # Replace remotes with read-only URLs for other users.
       cd $DOTDIR
-      echo "Installing read-only remotes."
-      sed -i "s/git@github.com:/git:\/\/github.com\//" .gitmodules
+      echo "${GREEN}Replace with read-only remotes${RESET}"
+      sed -i '' "s/git@github.com:/git:\/\/github.com\//" .gitmodules
       ;;
     e)
       ON_EWS=true
@@ -49,31 +48,17 @@ while getopts "oe" opt; do
   esac
 done
 
-# Pulls down submodules
-cd $DOTDIR
-git submodule update --init
-cd $VIMDIR
-git submodule update --init
+# Pulls down submodules recursively
+echo "${GREEN}Pull down submodules recursively${RESET}"
+git submodule update --init --recursive
 
-# Update vim
+# Fix vim configuration for EWS machines if -e was used
 cd $VIMDIR
-git checkout master
-git pull origin master
-
-# Fix configuration for EWS machines if -e was used
 if [ "$ON_EWS" = true ]; then
   cd $DOTDIR
-  echo "Installing EWS-compatible configuration."
+  echo "${GREEN}Installing EWS-compatible configuration${RESET}"
   sed -i "s/set cryptmethod=blowfish//" ./vim/vimrc.vim
   sed -i "s/git status -sb/git status -s/" ./zsh/custom/base.zsh
   sed -i "s/st = status -sb/st = status -s/" ./gitconfig
 fi
 
-# Update zsh
-cd $ZSHDIR
-git checkout master
-git pull origin master
-git submodule foreach git checkout master
-git submodule foreach git pull origin master
-git remote add upstream git://github.com/robbyrussell/oh-my-zsh.git
-git fetch
