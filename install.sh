@@ -31,6 +31,7 @@ fi
 ln -i -s $DOTDIR/redshift.conf ~/.config/redshift.conf
 ln -i -s $DOTDIR/gitconfig ~/.gitconfig
 ln -i -s $DOTDIR/toprc ~/.toprc
+ln -i -s $DOTDIR/tigrc ~/.tigrc
 ln -i -s $DOTDIR/tmux.conf ~/.tmux.conf
 
 # Get command line options
