@@ -1,49 +1,148 @@
-# Load .bashrc_gs
-if [[ -f .dotfiles/bash/bashrc_gs  ]]; then
-  source .dotfiles/bash/bashrc_gs
-fi
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
 
 # General Aliases
 alias cpuinfo="sudo i7z_64bit"
 alias sensors="watch -d -n 1 sensors"
-alias pegasus-db="mysql -u root -ppass pegasus"
-alias monad="../monad/monad --provided"
-alias pgssh="ssh -i ~/.ssh/pegasus-prod.pem -l ubuntu"
-alias spim="QtSpim"
-alias spimbot="QtSpimbot"
-alias svnup="svn up"
 alias diff="diff -s"
+alias more="less"
+alias dirstat="du -d 1 -h | sort -hr | head -n 11"
+alias ip="ifconfig | grep 'inet '"
+alias copy="xclip -selection clipboard"
+alias rm='rm -i'
+alias a='alias'
+alias tigs="tig status"
+alias profileme="history | awk '{print \$2}' | awk 'BEGIN {FS=\"|\"}{print \$1}' | sort | uniq -c | sort -n | tail -n 30 | sort -rn"
+alias speedtest="wget -O /dev/null http://speedtest.wdc01.softlayer.com/downloads/test10.zip"
+alias valgrind-leak='valgrind --leak-check=full --show-reachable=yes'
 
-# Directory Aliases
-alias pegasus="cd /home/mass/development/web/pegasus"
-alias mass-web="cd /home/mass/development/web/mass-web"
-alias 398="cd /home/mass/development/db/uiuc/398/amass2"
-alias 225="cd /home/mass/development/db/uiuc/225"
+# ls aliases
+alias sl="ls"
+alias la="ls -A"
+alias ll="ls -l"
+alias l1="ls -1"
+alias l="ls"
 
-# Development Settings
-export PATH=${PATH}:~/development/android-sdk-linux/tools:~/development/android-sdk-linux/platform-tools
-export MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=1024m"
+# Enable color support
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
 
-# Backs up all the important files in my home directory
-backuphome() {
-  T="$(date +%s)"
-  echo "Starting backup of files\n\n"
-  cd /home/mass
-  mkdir $(date +%F)
-  cd ./$(date +%F)
-  cp -rv ~/development ~/.ssh ~/.boto ~/.nvidia-settings-rc /etc/udev/rules.d/51-android.rules ./
-  cd ../
-  tar cvzf "Compressed-Archive-"$(date +%F).tar.gz ./$(date +%F)/
-  rm -rf ./$(date +%F)
-  mv "Compressed-Archive-"$(date +%F).tar.gz /home/mass/Dropbox/backups/ubuntu
-  T="$(($(date +%s)-T))"
-  echo "\n\nBackup completed, time elapsed: ${T}"
+# Configuration aliases
+alias bashrc="vim ~/.bashrc"
+alias shload="source ~/.bashrc"
+alias vimrc="vim ~/.vimrc"
+
+# Encryption aliases
+ssl_encrypt() {
+  openssl aes-256-cbc -a -salt -in $1 -out $2
+}
+ssl_decrypt() {
+  openssl aes-256-cbc -a -d -in $1 -out $2
 }
 
-# Clean and refresh the local pegasus database
-refresh-pegasus-db() {
-  OLD_DIR=$(pwd)
-  cd ~/development/web/pegasus/tools
-  cat create_tables.sql create_testdata.sql | mysql -u root -ppass
-  cd $OLD_DIR
+# Useful environment variables
+export EDITOR=vim
+export PYTHONPATH=$PYTHONPATH:/usr/local/lib/python2.7/site-packages
+
+# Change terminal title
+title() {
+  echo -n -e "\033]0;$1\007"
 }
+
+# Given an input n, gives a random string of length n.
+# If no input supplied, generates a 64 character string.
+randgen() {
+  if [[ $# -eq 0 ]]; then
+    openssl rand -hex 32
+  else
+    openssl rand -hex $1 | cut -c1-$1
+  fi
+}
+
+# Pull every git directory in the pwd.
+pull_with_report() {
+  if [[ -d $1/.git ]]; then
+    echo `echo $dir | sed 's/.|\///g'` >&2
+  fi
+  out=`git --git-dir=$1/.git --work-tree=$PWD/$1 pull 2>/dev/null`
+  if [[ -n $(echo $out | grep "Already up-to-date") ]]; then
+    echo "--- $dir: no changes." >&2
+  elif [[ -n $out ]]; then
+    echo "+++ $dir: pulled changes." >&2
+  fi
+}
+
+pulls() {
+  $(
+  dirs=`find . -maxdepth 1 -type d`
+  for dir in $dirs; do
+    pull_with_report $dir > /dev/null &
+  done
+  wait
+  )
+}
+
+# Automatically cd if you type a directory as a command
+shopt -s autocd
+shopt -s cdspell
+
+# Define Color Variables for later usage
+c_red=$(tput setaf 1)
+c_green=$(tput setaf 2)
+c_yellow=$(tput setaf 3)
+c_blue=$(tput setaf 4)
+c_purple=$(tput setaf 5)
+c_cyan=$(tput setaf 6)
+c_white=$(tput setaf 7)
+c_reset=$(tput sgr0)
+
+# Colorize less output
+export LESS_TERMCAP_mb=$(printf '\e[01;31m') # enter blinking mode – red
+export LESS_TERMCAP_md=$(printf '\e[01;35m') # enter double-bright mode – bold, magenta
+export LESS_TERMCAP_me=$(printf '\e[0m') # turn off all appearance modes (mb, md, so, us)
+export LESS_TERMCAP_se=$(printf '\e[0m') # leave standout mode
+export LESS_TERMCAP_so=$(printf '\e[01;33m') # enter standout mode – yellow
+export LESS_TERMCAP_ue=$(printf '\e[0m') # leave underline mode
+export LESS_TERMCAP_us=$(printf '\e[04;36m') # enter underline mode – cyan
+
+# Make .bash_history store more and not store duplicates
+export HISTCONTROL=ignoreboth
+export HISTSIZE=100000
+export HISTFILESIZE=100000
+
+# Append to the history file, don't overwrite it
+shopt -s histappend
+
+# Check the window size after each command and, if necessary,
+# Update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# Make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe.sh ] && export LESSOPEN="|/usr/bin/lesspipe.sh %s"
+
+if [[ -f ./git-completion.bash ]]; then
+  source ./git-completion.bash
+fi
+
+if [[ -f ~/.git-prompt.sh ]]; then
+  # Enable git support in prompt
+  source ~/.git-prompt.sh
+  GIT_PS1_SHOWDIRTYSTATE=1
+  GIT_PS1_SHOWUNTRACKEDFILES=1
+  GIT_PS1_SHOWSTASHSTATE=1
+  GIT_PS1_SHOWUPSTREAM="auto git"
+  GIT_PS1_DESCRIBE_STYLE="branch"
+  GIT_PS1_SHOWCOLORHINTS=1
+  # Set the Prompt to be more reasonable, with git support
+  PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[31m\]$(__git_ps1 "[%s]")\[\033[00m\]$ '
+else
+  # Set the Prompt to be more reasonable
+  PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[00m\]$ '
+fi
+
+# Enable programmable completion features
+if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+fi
+
+bind "set completion-ignore-case on"
