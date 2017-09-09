@@ -9,3 +9,4 @@ git pull origin master
 
 echo "${GREEN}Updating submodules recursively${RESET}"
 git submodule update --init --recursive
+git submodule foreach --recursive "(git checkout master && git pull --ff origin master)"

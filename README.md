@@ -1,4 +1,4 @@
-#dotfiles
+# dotfiles
 
 > My dotfiles for UNIX-based operating systems.
 
@@ -12,8 +12,6 @@ cd ~/.dotfiles
 ./install.sh -o
 ```
 The `-o` option installs read-only remotes, which will allow you to clone the submodules if you don't have write access to them (which you don't, unless you're me).
-
-If you are installing this configuation on a EWS machine, use the `-e` option as well. If you don't know what EWS is, don't worry about it.
 
 If you already have any of the configuration files that this configuration installs, you will be asked if they should be replaced. If you want to keep your old files, enter `n`. If you want to use my configuation files, enter `y`.
 

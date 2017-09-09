@@ -35,7 +35,7 @@ ln -i -s $DOTDIR/tigrc ~/.tigrc
 ln -i -s $DOTDIR/tmux.conf ~/.tmux.conf
 
 # Get command line options
-while getopts "oe" opt; do
+while getopts "o" opt; do
   case $opt in
     o)
       # Replace remotes with read-only URLs for other users.
@@ -43,23 +43,10 @@ while getopts "oe" opt; do
       echo "${GREEN}Replace with read-only remotes${RESET}"
       sed -i '' "s/git@github.com:/git:\/\/github.com\//" .gitmodules
       ;;
-    e)
-      ON_EWS=true
-      ;;
   esac
 done
 
 # Pulls down submodules recursively
 echo "${GREEN}Pull down submodules recursively${RESET}"
 git submodule update --init --recursive
-
-# Fix vim configuration for EWS machines if -e was used
-cd $VIMDIR
-if [ "$ON_EWS" = true ]; then
-  cd $DOTDIR
-  echo "${GREEN}Installing EWS-compatible configuration${RESET}"
-  sed -i "s/set cryptmethod=blowfish//" ./vim/vimrc.vim
-  sed -i "s/git status -sb/git status -s/" ./zsh/custom/base.zsh
-  sed -i "s/st = status -sb/st = status -s/" ./gitconfig
-fi
-
+git submodule foreach --recursive "(git checkout master && git pull --ff origin master)"
