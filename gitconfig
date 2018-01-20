@@ -9,23 +9,26 @@
   whitespace = blank-at-eol,space-before-tab,fix,-indent-with-non-tab,cr-at-eol
 
 [alias]
-  amend = commit --amend
-  aa = add --all
   b = branch
-  ci = commit --verbose
+  c = commit --verbose
   co = checkout
   df = diff
+  f = fetch
+  l = log -p --abbrev-commit --pretty=fuller
+  m = merge
+  mff = merge --ff-only
+  p = push
   st = status -sb
 
 [color]
-  branch = always
-  diff = always
-  grep = always
-  interactive = always
+  branch = true
+  diff = true
+  grep = true
+  interactive = true
   pager = true
-  showbranch = always
-  status = always
-  ui = always
+  showbranch = true
+  status = true
+  ui = true
 
 ; format: foreground background attribute
 ; colors: normal, black, red, green, yellow, blue, magenta, cyan, white
