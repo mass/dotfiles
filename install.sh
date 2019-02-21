@@ -13,6 +13,7 @@ ZSHDIR=$(pwd)/zsh
 # Installs bashrc, zshrc
 echo "${GREEN}Installing bashrc, zshrc${RESET}"
 ln -i -s $BASHDIR/bashrc ~/.bashrc
+ln -i -s $BASHDIR/bash_profile ~/.bash_profile
 ln -i -s $ZSHDIR/zshrc ~/.zshrc
 
 # Installs vim

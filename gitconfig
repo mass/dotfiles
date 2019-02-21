@@ -11,13 +11,20 @@
 [alias]
   b = branch
   c = commit --verbose
+  cdi = clean -di
+  cdxf = clean -dxf
   co = checkout
+  cob = checkout -b
   df = diff
   f = fetch
+  g = grep -in
   l = log -p --abbrev-commit --pretty=fuller
   m = merge
   mff = merge --ff-only
   p = push
+  pu = push -u
+  r = reset
+  s = stash
   st = status -sb
 
 [color]
