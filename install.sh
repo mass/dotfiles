@@ -23,6 +23,7 @@ if [ -h ~/.vim ]; then
   rm ~/.vim
 fi
 ln -i -s "$VIMDIR" ~/.vim
+ln -i -s ~/.vim/mass_airline.vim ~/.vim/plug/vim-airline/autoload/airline/themes/mass_airline.vim
 
 # Installs redshift.conf, .gitconfig, .toprc, .tmux.conf
 echo "${GREEN}Installing config files${RESET}"
