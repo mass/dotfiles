@@ -1,0 +1,17 @@
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
+ZSHDIR="$HOME/.dotfiles/zsh"
+
+# Core zsh config
+source $ZSHDIR/key-bindings.zsh
+
+# Plugins
+source $ZSHDIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $ZSHDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $ZSHDIR/plugins/zsh-completions/zsh-completions.plugin.zsh
+source $ZSHDIR/plugins/git-prompt.zsh
+
+# Custom config
+source $ZSHDIR/mass.zsh
+source $ZSHDIR/mass.zsh-theme
