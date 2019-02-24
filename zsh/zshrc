@@ -3,6 +3,9 @@
 
 ZSHDIR="$HOME/.dotfiles/zsh"
 
+# TODO
+# - https://github.com/peterhurford/git-it-on.zsh
+
 # Core zsh config
 source $ZSHDIR/key-bindings.zsh
 
@@ -11,6 +14,8 @@ source $ZSHDIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $ZSHDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $ZSHDIR/plugins/zsh-completions/zsh-completions.plugin.zsh
 source $ZSHDIR/plugins/git-prompt.zsh
+source $ZSHDIR/plugins/alias-tips/alias-tips.plugin.zsh
+source $ZSHDIR/plugins/calc/calc.plugin.zsh
 
 # Custom config
 source $ZSHDIR/mass.zsh

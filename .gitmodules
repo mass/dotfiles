@@ -10,3 +10,9 @@
 [submodule "zsh-syntax-highlighting"]
 	path = zsh/plugins/zsh-syntax-highlighting
 	url = git://github.com/zsh-users/zsh-syntax-highlighting.git
+[submodule "zsh-alias-tips"]
+	path = zsh/plugins/alias-tips
+	url = git://github.com/djui/alias-tips.git
+[submodule "zsh-calc"]
+	path = zsh/plugins/calc
+	url = git://github.com/arzzen/calc.plugin.zsh.git

@@ -5,16 +5,15 @@
 # Date:   2014-07-30       #
 ############################
 
-# Shell options
-setopt AUTO_CD
-setopt CHASE_LINKS
-setopt EXTENDED_GLOB
-setopt NO_CHECK_JOBS
-setopt NO_HUP
-setopt SHORT_LOOPS
-unsetopt COMPLETE_ALIASES
-unsetopt BEEP
-unsetopt LIST_BEEP
+# REF
+# - `bindkey`: See currently active keybindings
+# - <ESC-e>: Edit command line in text editor
+# - `vared $VAR`: Edit $VAR variable
+# - `=`: Simple calculator
+
+# TODO
+# - suffix and global aliases
+# - https://geoff.greer.fm/lscolors/
 
 # Color variables
 BOLD="$(tput bold)"
@@ -27,29 +26,48 @@ CYAN=$BOLD"$(tput setaf 6)"
 WHITE=$BOLD"$(tput setaf 7)"
 RESET="$(tput sgr0)"
 
+# Shell options
+setopt   AUTO_CD                       # Change to directory by entering as command
+unsetopt BEEP                          # Don't beep on errors...
+setopt   CHASE_LINKS                   # Resolve symlinks when changing dirs
+setopt   NO_CHECK_JOBS                 # Exit without checking status of background jobs
+setopt   NO_CLOBBER                    # Prevent redirection from truncating files (use >| to override)
+unsetopt COMPLETE_ALIASES              # Expand aliases before completion
+unsetopt CORRECT                       # Don't correct spelling of commands
+unsetopt EXTENDED_GLOB                 # Disable extended glob patterns
+unsetopt LIST_BEEP                     # Don't beep on ambiguous completion
+setopt   NO_HUP                        # Don't send HUP to background jobs when exiting
+setopt   SHORT_LOOPS                   # Allow short forms of for, repeat, select, if, and fucntions
+
 # Completion options
+# :completion:FUNCTION:COMPLETER:COMMAND-OR-MAGIC-CONTEXT:ARGUMENT:TAG
 autoload -U compinit
 compinit -C
-zstyle ':completion:*' menu select
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' \
-  'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+unsetopt MENU_COMPLETE                 # Don't autoselect first completion entry
+zstyle ':completion:*' menu select     # Nice menu tabular-formatted selection
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # Use colors in completion
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' use-cache on    # Cache completion results
+zstyle ':completion:*' cache-path "${HOME}/.cache/zsh" # Completion cache location
 
 # History options
-setopt   APPEND_HISTORY
-setopt   EXTENDED_HISTORY
-unsetopt HIST_BEEP
-setopt   HIST_FIND_NO_DUPS
-setopt   HIST_IGNORE_ALL_DUPS
-setopt   HIST_VERIFY
-setopt   INC_APPEND_HISTORY
-export HISTFILE="${HOME}/.zsh_history"
-export HISTCONTROL=ignoreboth
-export HISTSIZE=100000
-export HISTFILESIZE=100000
+setopt   APPEND_HISTORY                # Append to history file rather than replacing
+setopt   EXTENDED_HISTORY              # Print timestamp with history entry
+unsetopt HIST_BEEP                     # Don't beep...
+setopt   HIST_EXPIRE_DUPS_FIRST        # When running out of space, first delete duplicat entries
+unsetopt HIST_FIND_NO_DUPS             # Find duplicates of previously found lines
+setopt   HIST_IGNORE_DUPS              # Don't save consequtive identical lines
+setopt   HIST_VERIFY                   # Lets user edit history cmd before running
+unsetopt INC_APPEND_HISTORY            # Disable when SHARE_HISTORY enabled
+setopt   SHARE_HISTORY                 # Share history amongst all zsh sessions
+export HISTFILE="${HOME}/.zsh_history" # History file location
+export HISTSIZE=100000                 # Longer history
+export HISTFILESIZE=100000             # Longer history file
 
-# Misc options
-autoload -U colors && colors
+# Edit command line in text editor
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '\ee' edit-command-line
 
 # Command Aliases
 alias a='alias'
@@ -57,7 +75,7 @@ alias m="man"
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
-alias more="less" # Less is more
+alias more="less"
 alias diff="diff -s"
 alias grep='grep --color=auto'
 alias tmuxa="tmux attach-session -t"
@@ -122,6 +140,15 @@ alias shload="exec zsh"
 # Useful environment variables
 export EDITOR=vim
 export PATH="${PATH}:`ruby -e 'puts Gem.user_dir'`/bin"
+
+# Colorize man output
+export LESS_TERMCAP_mb=$'\e[1;32m'
+export LESS_TERMCAP_md=$'\e[1;32m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[01;33m'
+export LESS_TERMCAP_ue=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[1;4;31m'
 
 # Randomness functions
 flipcoin() {
@@ -268,4 +295,9 @@ print_colors() {
     fi
   done
   printf "\x1b[0m" # Reset
+}
+
+# Print horizontal rule
+hr() {
+  print ${(l:COLUMNS::=:)}
 }
