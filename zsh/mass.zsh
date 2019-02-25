@@ -132,9 +132,9 @@ alias ls='ls --color=auto'
 
 # Configuration aliases
 alias bashrc="vim ~/.bashrc"
-alias zshrc="vim ~/.dotfiles/zsh/custom/mass.zsh"
+alias zshrc="vim ~/.dotfiles/zsh/mass.zsh"
 alias vimrc="vim ~/.vimrc"
-alias zshtheme="vim ~/.dotfiles/zsh/custom/mass.zsh-theme"
+alias zshtheme="vim ~/.dotfiles/zsh/mass.zsh-theme"
 alias shload="exec zsh"
 
 # Useful environment variables

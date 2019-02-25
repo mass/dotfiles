@@ -16,7 +16,7 @@ PS1="${Y}["\
 "%(1j,${Y} [${B}☢%j${Y}],)"\
 "${Y} [${G}%~${Y}]"\
 "${R}"'$(git_prompt_string)'\
-"${Y} %(!,#,❯) "
+"${Y}%(!,#,❯) "
 
 # Right Side Prompt
 RPS1="%(1?, ${Y}[${R}%?${Y}] ,)"\
@@ -36,11 +36,11 @@ GIT_PROMPT_SUFFIX="${Y}]${C}"
 GIT_PROMPT_EQUAL="${B}‖${C}"
 GIT_PROMPT_AHEAD="${R}↑NUM${C}"
 GIT_PROMPT_BEHIND="${R}↓NUM${C}"
-GIT_PROMPT_MERGING="${R}☭${C}"
-GIT_PROMPT_REBASING="${R}♞${C}"
-GIT_PROMPT_CHERRYPICKING="${R}©${C}"
-GIT_PROMPT_BISECTING="${R}✂${C}"
-GIT_PROMPT_STASHED="${R}☢${C}"
-GIT_PROMPT_UNTRACKED="${R}●${C}"
-GIT_PROMPT_MODIFIED="${Y}●${C}"
-GIT_PROMPT_STAGED="${G}●${C}"
+GIT_PROMPT_MERGING="${R}‽${C}"
+GIT_PROMPT_REBASING="${R}∮${C}"
+GIT_PROMPT_CHERRYPICKING="${R}ç${C}"
+GIT_PROMPT_BISECTING="${R}†${C}"
+GIT_PROMPT_STASHED="${R}§${C}"
+GIT_PROMPT_UNTRACKED="${R}©${C}"
+GIT_PROMPT_MODIFIED="${Y}©${C}"
+GIT_PROMPT_STAGED="${G}©${C}"
