@@ -16,3 +16,6 @@
 [submodule "zsh-calc"]
 	path = zsh/plugins/calc
 	url = git://github.com/arzzen/calc.plugin.zsh.git
+[submodule "fasd"]
+	path = zsh/plugins/fasd
+	url = git://github.com/clvv/fasd.git

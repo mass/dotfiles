@@ -16,6 +16,7 @@ source $ZSHDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $ZSHDIR/plugins/zsh-completions/zsh-completions.plugin.zsh
 source $ZSHDIR/plugins/alias-tips/alias-tips.plugin.zsh
 source $ZSHDIR/plugins/calc/calc.plugin.zsh
+source $ZSHDIR/plugins/fasd/fasd
 
 # Custom config
 source $ZSHDIR/mass.zsh
