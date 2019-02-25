@@ -41,7 +41,7 @@ setopt   SHORT_LOOPS                   # Allow short forms of for, repeat, selec
 
 # Completion options
 # :completion:FUNCTION:COMPLETER:COMMAND-OR-MAGIC-CONTEXT:ARGUMENT:TAG
-autoload -U compinit
+autoload -Uz compinit
 compinit -C
 unsetopt MENU_COMPLETE                 # Don't autoselect first completion entry
 zstyle ':completion:*' menu select     # Nice menu tabular-formatted selection
@@ -65,7 +65,7 @@ export HISTSIZE=100000                 # Longer history
 export HISTFILESIZE=100000             # Longer history file
 
 # Edit command line in text editor
-autoload -U edit-command-line
+autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey '\ee' edit-command-line
 

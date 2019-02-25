@@ -1,22 +1,25 @@
 # Adapted from code found at <https://gist.github.com/1712320>.
 
 setopt prompt_subst
-autoload -U colors && colors # Enable colors in prompt
+autoload -Uz colors && colors
 
-# Modify the colors and symbols in these variables as desired.
-GIT_PROMPT_SYMBOL="%{$fg[blue]%}±"
-GIT_PROMPT_PREFIX="%{$fg[red]%}[%{$reset_color%}"
-GIT_PROMPT_SUFFIX="%{$fg[red]%}]%{$reset_color%}"
-GIT_PROMPT_AHEAD="%{$fg[red]%}ANUM%{$reset_color%}"
-GIT_PROMPT_EQUAL="%{$fg[blue]%}=%{$reset_color%}"
-GIT_PROMPT_BEHIND="%{$fg[cyan]%}BNUM%{$reset_color%}"
-GIT_PROMPT_MERGING="%{$fg_bold[magenta]%}⚡︎%{$reset_color%}"
-GIT_PROMPT_REBASING="%{$fg_bold[magenta]%}R%{$reset_color%}"
-GIT_PROMPT_CHERRYPICKING="%{$fg_bold[magenta]%}C%{$reset_color%}"
-GIT_PROMPT_BISECTING="%{$fg_bold[magenta]%}B%{$reset_color%}"
-GIT_PROMPT_UNTRACKED="%{$fg_bold[red]%}●%{$reset_color%}"
-GIT_PROMPT_MODIFIED="%{$fg_bold[yellow]%}●%{$reset_color%}"
-GIT_PROMPT_STAGED="%{$fg_bold[green]%}●%{$reset_color%}"
+# Color Variables
+R=$'%{\x1b[38;5;1m%}'
+G=$'%{\x1b[38;5;2m%}'
+Y=$'%{\x1b[38;5;3m%}'
+B=$'%{\x1b[38;5;4m%}'
+C=$'%{\x1b[0m%}'
+
+# Git Prompt Symbols
+GIT_PROMPT_PREFIX="${Y}["
+GIT_PROMPT_SUFFIX="${Y}]"
+GIT_PROMPT_EQUAL="${B}‖"
+GIT_PROMPT_AHEAD="${R}↑NUM"
+GIT_PROMPT_BEHIND="${R}↓NUM"
+GIT_PROMPT_STASHED="${R}§"
+GIT_PROMPT_UNTRACKED="${R}©"
+GIT_PROMPT_MODIFIED="${Y}©"
+GIT_PROMPT_STAGED="${G}©"
 
 # Show Git branch/tag, or name-rev if on detached head
 parse_git_branch() {
@@ -48,23 +51,6 @@ parse_git_state() {
     fi
   fi
 
-  local GIT_DIR="$(git rev-parse --git-dir 2> /dev/null)"
-  if [ -n $GIT_DIR ] && test -r $GIT_DIR/MERGE_HEAD; then
-    GIT_STATE=$GIT_STATE$GIT_PROMPT_MERGING
-  fi
-
-  if [ -n "$GIT_DIR" ] && [ -d "${GIT_DIR}/rebase-merge" ]; then
-    GIT_STATE=$GIT_STATE$GIT_PROMPT_REBASING
-  fi
-
-  if [ -n "$GIT_DIR" ] && [ -f "${GIT_DIR}/CHERRY_PICK_HEAD" ]; then
-    GIT_STATE=$GIT_STATE$GIT_PROMPT_CHERRYPICKING
-  fi
-
-  if [ -n "$GIT_DIR" ] && [ -f "${GIT_DIR}/BISECT_LOG" ]; then
-    GIT_STATE=$GIT_STATE$GIT_PROMPT_BISECTING
-  fi
-
   if [[ -n $(git stash list 2> /dev/null) ]]; then
     GIT_STATE=$GIT_STATE$GIT_PROMPT_STASHED
   fi
@@ -89,5 +75,6 @@ parse_git_state() {
 # If inside a Git repository, print its branch and state
 git_prompt_string() {
   local git_where="$(parse_git_branch)"
-  [ -n "$git_where" ] && echo "$GIT_PROMPT_SYMBOL$GIT_PROMPT_PREFIX%{$fg[blue]%}${git_where#(refs/heads/|tags/)}$GIT_PROMPT_SUFFIX $(parse_git_state)"
+  [ -z "$git_where" ] && return
+  echo " ${GIT_PROMPT_PREFIX}${B}${git_where#(refs/heads/|tags/)}$GIT_PROMPT_SUFFIX $(parse_git_state)${C}"
 }
