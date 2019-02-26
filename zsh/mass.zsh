@@ -60,9 +60,10 @@ setopt   HIST_IGNORE_DUPS              # Don't save consequtive identical lines
 setopt   HIST_VERIFY                   # Lets user edit history cmd before running
 unsetopt INC_APPEND_HISTORY            # Disable when SHARE_HISTORY enabled
 setopt   SHARE_HISTORY                 # Share history amongst all zsh sessions
-export HISTFILE="${HOME}/.zsh_history" # History file location
-export HISTSIZE=100000                 # Longer history
-export HISTFILESIZE=100000             # Longer history file
+export HISTFILE=~/.zsh_history         # History file location
+export HISTSIZE=200000                 # Longer history
+export HISTFILESIZE=200000             # Longer history
+export SAVEHIST=200000                 # Longer history
 
 # Edit command line in text editor
 autoload -Uz edit-command-line
@@ -127,7 +128,6 @@ alias ll="ls -lh"
 alias lla="ll -A"
 alias l1="ls -1"
 alias l1a="l1 -A"
-alias l="ls"
 alias ls='ls --color=auto'
 
 # Configuration aliases
