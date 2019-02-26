@@ -15,16 +15,7 @@
 # - suffix and global aliases
 # - https://geoff.greer.fm/lscolors/
 
-# Color variables
-BOLD="$(tput bold)"
-RED=$BOLD"$(tput setaf 1)"
-GREEN=$BOLD"$(tput setaf 2)"
-YELLOW=$BOLD"$(tput setaf 3)"
-BLUE=$BOLD"$(tput setaf 4)"
-PURPLE=$BOLD"$(tput setaf 5)"
-CYAN=$BOLD"$(tput setaf 6)"
-WHITE=$BOLD"$(tput setaf 7)"
-RESET="$(tput sgr0)"
+### Options ####################################################################
 
 # Shell options
 setopt   AUTO_CD                       # Change to directory by entering as command
@@ -70,7 +61,37 @@ autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey '\ee' edit-command-line
 
-# Command Aliases
+### Variables ##################################################################
+
+# Useful environment variables
+export EDITOR=vim
+if hash ruby 2>/dev/null; then
+  export PATH="${PATH}:`ruby -e 'puts Gem.user_dir'`/bin"
+fi
+
+# Color variables
+RST=$'\x1b[0m'
+BLD=$'\x1b[1m'
+UND=$'\x1b[4m'
+REV=$'\x1b[7m'
+GRN=$'\x1b[38;5;2m'
+CYN=$'\x1b[38;5;6m'
+RED=$'\x1b[38;5;9m'
+BLU=$'\x1b[38;5;33m'
+LGY=$'\x1b[38;5;248m'
+
+# Colorize man output
+export LESS_TERMCAP_mb=$REV$RED        # Unused
+export LESS_TERMCAP_md=$BLD$BLU        # Headers, keywords, etc
+export LESS_TERMCAP_so=$REV$LGY        # Bottom pager line
+export LESS_TERMCAP_us=$BLD$RED        # Underlined (more keywords)
+export LESS_TERMCAP_me=$RST            # End modes
+export LESS_TERMCAP_se=$RST            # End standout
+export LESS_TERMCAP_ue=$RST            # End underline
+
+### Aliases ####################################################################
+
+# Common command aliases
 alias a='alias'
 alias m="man"
 alias rm='rm -i'
@@ -79,14 +100,40 @@ alias mv='mv -i'
 alias more="less"
 alias diff="diff -s"
 alias grep='grep --color=auto'
+alias open="xdg-open"
+alias ftail="tail -f -s 0.1 -n 1000"
+
+# Util aliases
+alias g="git"
 alias tmuxa="tmux attach-session -t"
 alias tmuxl="tmux list-sessions"
-alias open="xdg-open"
-alias g="git"
 alias tigs="tig status"
 alias tigy="tig stash"
-alias ftail="tail -f -s 0.1 -n 1000"
 alias mconv="/drive/development/scripts/mconv.sh"
+alias copy="xclip -selection clipboard"
+alias profileme="history | awk '{print \$2}' | awk 'BEGIN {FS=\"|\"}{print \$1}' | sort | uniq -c | sort -n | tail -n 30 | sort -rn"
+alias speedtest="wget -O /dev/null http://speedtest.wdc01.softlayer.com/downloads/test10.zip"
+alias valgrind-leak='valgrind --leak-check=full --show-reachable=yes'
+alias sensors-live="watch -d -n 0.5 sensors"
+alias redreset="redshift -x"
+alias sys-mon="tmuxinator start sys-mon"
+alias sockets="ss -tuprs exclude close-wait exclude time-wait"
+alias sockets-live="watch -n 1 \"date && echo && ss -tuprs exclude close-wait exclude time-wait\""
+
+# ls aliases
+alias la="ls -A"
+alias ll="ls -lh"
+alias lla="ll -A"
+alias l1="ls -1"
+alias l1a="l1 -A"
+alias ls='ls --color=auto --group-directories-first'
+
+# Configuration aliases
+alias shload="exec zsh"
+alias vimrc="vim ~/.vimrc"
+alias zshrc="vim ~/.dotfiles/zsh/mass.zsh"
+alias zshth="vim ~/.dotfiles/zsh/mass.zsh-theme"
+alias bashrc="vim ~/.bashrc"
 
 # fasd Aliases
 eval "$(fasd --init zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp zsh-wcomp-install)"
@@ -109,46 +156,7 @@ fasd_cd() {
   fi
 }
 
-# Util Aliases
-alias copy="xclip -selection clipboard"
-alias profileme="history | awk '{print \$2}' | awk 'BEGIN {FS=\"|\"}{print \$1}' | sort | uniq -c | sort -n | tail -n 30 | sort -rn"
-alias speedtest="wget -O /dev/null http://speedtest.wdc01.softlayer.com/downloads/test10.zip"
-alias shell='ps -p $$ -o comm='
-alias valgrind-leak='valgrind --leak-check=full --show-reachable=yes'
-alias sensors="watch -d -n 0.5 sensors"
-alias redreset="redshift -x"
-alias sys-mon="tmuxinator start sys-mon"
-alias sockets="ss -tuprs exclude close-wait exclude time-wait"
-alias sockets-live="watch -n 1 \"date && echo && ss -tuprs exclude close-wait exclude time-wait\""
-
-# ls aliases
-alias sl="ls"
-alias la="ls -A"
-alias ll="ls -lh"
-alias lla="ll -A"
-alias l1="ls -1"
-alias l1a="l1 -A"
-alias ls='ls --color=auto'
-
-# Configuration aliases
-alias bashrc="vim ~/.bashrc"
-alias zshrc="vim ~/.dotfiles/zsh/mass.zsh"
-alias vimrc="vim ~/.vimrc"
-alias zshtheme="vim ~/.dotfiles/zsh/mass.zsh-theme"
-alias shload="exec zsh"
-
-# Useful environment variables
-export EDITOR=vim
-export PATH="${PATH}:`ruby -e 'puts Gem.user_dir'`/bin"
-
-# Colorize man output
-export LESS_TERMCAP_mb=$'\e[1;32m'
-export LESS_TERMCAP_md=$'\e[1;32m'
-export LESS_TERMCAP_me=$'\e[0m'
-export LESS_TERMCAP_se=$'\e[0m'
-export LESS_TERMCAP_so=$'\e[01;33m'
-export LESS_TERMCAP_ue=$'\e[0m'
-export LESS_TERMCAP_us=$'\e[1;4;31m'
+### Utility Functions ##########################################################
 
 # Randomness functions
 flipcoin() {
@@ -170,114 +178,6 @@ randgen() {
   fi
 }
 
-# Travels up N directories
-up() {
-  if [[ $# -eq 0 ]]; then
-    local NUM=1
-  else
-    local NUM=$1
-  fi
-
-  local DIR=$PWD
-
-  for ((i=0; i<NUM; i++)) do
-    DIR=$DIR/..
-  done
-
-  cd $DIR
-}
-
-# Manual Package Update and Cleaning
-pkupdate() {
-  # Run everything as root
-  sudo echo ""
-
-  Time="$(date +%s)"
-  echo -e "${GREEN}Starting Package Update${RESET}"
-  echo -e "${GREEN}=======================${RESET}"
-
-  if [[ $# -gt 0 ]]; then
-    echo -e "${CYAN}Arguments: $@${RESET}"
-  fi
-
-  # Use apt-get if present
-  local APT_GET_VERSION=$(apt-get --version 2> /dev/null)
-  if [ "${APT_GET_VERSION}" ]; then
-      echo -e "${GREEN}\nUsing apt-get!${RESET}"
-      echo -e "${GREEN}--------------${RESET}"
-
-      echo -e "${GREEN}\nUpdating Repositories${RESET}"
-      sudo apt-get $@ update
-
-      echo -e "${GREEN}\nUpdating Packages${RESET}"
-      sudo apt-get $@ upgrade
-
-      echo -e "${GREEN}\nUpdating Distribution Packages${RESET}"
-      sudo apt-get $@ dist-upgrade
-
-      echo -e "${GREEN}\nChecking and Repairing Dependencies${RESET}"
-      sudo apt-get $@ check
-
-      echo -e "${GREEN}\nRemoving Unnecessary Packages${RESET}"
-      sudo apt-get $@ autoremove --purge
-
-      echo -e "${GREEN}\nCleaning Package Download Files${RESET}"
-      sudo apt-get $@ autoclean
-      sudo apt-get $@ clean
-  fi
-
-  # Use pacman if present
-  local PACMAN_VERSION=$(pacman --version 2> /dev/null)
-  if [ "${PACMAN_VERSION}" ]; then
-      echo -e "${GREEN}\nUsing pacman!${RESET}"
-      echo -e "${GREEN}-------------${RESET}"
-
-      echo -e "${GREEN}\nUpdating Package Databases${RESET}"
-      sudo pacman -Syy $@
-
-      echo -e "${GREEN}\nUpdating Packages${RESET}"
-      sudo pacman -Suu --needed $@
-
-      echo -e "${GREEN}\nRemove Unnecessary Packages${RESET}"
-      local UP=$(pacman -Qtdq)
-      if [ "${UP}" ]; then
-          sudo bash -c "pacman -Qtdq | pacman -Rnssu -"
-      fi
-
-      echo -e "${GREEN}\nCleaning Caches${RESET}"
-      sudo pacman -Scc $@ <<< Y <<< Y
-
-      echo -e "${GREEN}\nCheck Database Consistency${RESET}"
-      pacman -Dk
-
-      echo -e "${GREEN}\nCheck Package Integrity${RESET}"
-      sudo pacman -Qk --color=always | grep "warning: "
-
-      echo -e "${GREEN}\nOptional Commands:${RESET}"
-      echo -e "sudo pacman -Qkk      : More detailed package integrity checks"
-      echo -e "sudo pacman-optimize  : Defragment package database files"
-  fi
-
-  local YAOURT_VERSION=$(yaourt --version 2> /dev/null)
-  if [ "${YAOURT_VERSION}" ]; then
-    echo -e "${GREEN}\nUsing yaourt!${RESET}"
-    echo -e "${GREEN}-------------${RESET}"
-    yaourt -Syu --aur
-  fi
-
-  Time="$(($(date +%s) - Time))"
-  echo -e "${GREEN}\nPackage Update Complete. Time Elapsed: ${RED}${Time}s${RESET}"
-}
-
-# Remind me of common maitenance commands
-remind() {
-    echo -e "pkupdate            : Perform package maitenance"
-    echo -e "systemctl --failed  : Check systemd failed units"
-    echo -e "journalctl -xb -p 3 : Check systemd logs"
-    echo -e "pacman -Qte         : Review manually installed, unrequired packages"
-    echo -e "pacgraph            : Generate visual representation of packages"
-}
-
 # Directory usage stats
 dstat() {
   local DIR=$(pwd)
@@ -289,10 +189,8 @@ dstat() {
 print_colors() {
   printf "\x1b[30;47m" # Black foreground
   for i in {0..255}; do
-    printf "\x1b[48;5;${i}m%3d " "${i}" # Color background
-    if (( $i == 15 )) || (( $i > 15 )) && (( ($i-15) % 12 == 0 )); then
-      echo
-    fi
+    printf "\x1b[48;5;${i}m %3d " "${i}" # Color background
+    ((( $i == 7 )) || (( $i == 15)) || ((( $i > 15 )) && (( ($i-15) % 12 == 0)))) && echo
   done
   printf "\x1b[0m" # Reset
 }
@@ -300,4 +198,97 @@ print_colors() {
 # Print horizontal rule
 hr() {
   print ${(l:COLUMNS::=:)}
+}
+
+### OS Functions ###############################################################
+
+# Remind me of common maitenance commands
+remind() {
+    echo -e "pkupdate            : Perform package maitenance"
+    echo -e "systemctl --failed  : Check systemd failed units"
+    echo -e "journalctl -xb -p 3 : Check systemd logs"
+    echo -e "pacman -Qte         : Review manually installed, unrequired packages"
+    echo -e "pacgraph            : Generate visual representation of packages"
+}
+
+# Manual Package Update and Cleaning
+pkupdate() {
+  # Run everything as root
+  sudo echo ""
+
+  Time="$(date +%s)"
+  echo -e "${GRN}Starting Package Update${RST}"
+  echo -e "${GRN}=======================${RST}"
+
+  if [[ $# -gt 0 ]]; then
+    echo -e "${BLD}${CYN}Arguments: $@${RST}"
+  fi
+
+  # Use apt-get if present
+  local APT_GET_VERSION=$(apt-get --version 2> /dev/null)
+  if [ "${APT_GET_VERSION}" ]; then
+      echo -e "${GRN}\nUsing apt-get!${RST}"
+      echo -e "${GRN}--------------${RST}"
+
+      echo -e "${GRN}\nUpdating Repositories${RST}"
+      sudo apt-get $@ update
+
+      echo -e "${GRN}\nUpdating Packages${RST}"
+      sudo apt-get $@ upgrade
+
+      echo -e "${GRN}\nUpdating Distribution Packages${RST}"
+      sudo apt-get $@ dist-upgrade
+
+      echo -e "${GRN}\nChecking and Repairing Dependencies${RST}"
+      sudo apt-get $@ check
+
+      echo -e "${GRN}\nRemoving Unnecessary Packages${RST}"
+      sudo apt-get $@ autoremove --purge
+
+      echo -e "${GRN}\nCleaning Package Download Files${RST}"
+      sudo apt-get $@ autoclean
+      sudo apt-get $@ clean
+  fi
+
+  # Use pacman if present
+  local PACMAN_VERSION=$(pacman --version 2> /dev/null)
+  if [ "${PACMAN_VERSION}" ]; then
+      echo -e "${GRN}\nUsing pacman!${RST}"
+      echo -e "${GRN}-------------${RST}"
+
+      echo -e "${GRN}\nUpdating Package Databases${RST}"
+      sudo pacman -Syy $@
+
+      echo -e "${GRN}\nUpdating Packages${RST}"
+      sudo pacman -Suu --needed $@
+
+      echo -e "${GRN}\nRemove Unnecessary Packages${RST}"
+      local UP=$(pacman -Qtdq)
+      if [ "${UP}" ]; then
+          sudo bash -c "pacman -Qtdq | pacman -Rnssu -"
+      fi
+
+      echo -e "${GRN}\nCleaning Caches${RST}"
+      sudo pacman -Scc $@ <<< Y <<< Y
+
+      echo -e "${GRN}\nCheck Database Consistency${RST}"
+      pacman -Dk
+
+      echo -e "${GRN}\nCheck Package Integrity${RST}"
+      sudo pacman -Qk --color=always | grep "warning: "
+
+      echo -e "${GRN}\nOptional Commands:${RST}"
+      echo -e "sudo pacman -Qkk      : More detailed package integrity checks"
+      echo -e "sudo pacman-optimize  : Defragment package database files"
+  fi
+
+  local YAOURT_VERSION=$(yaourt --version 2> /dev/null)
+  if [ "${YAOURT_VERSION}" ]; then
+    echo -e "${GRN}\nUsing yaourt!${RST}"
+    echo -e "${GRN}-------------${RST}"
+    yaourt -Syu --aur
+  fi
+
+  Time="$(($(date +%s) - Time))"
+  echo -e "${GRN}\nPackage Update Complete. Time Elapsed: ${BLD}${RED}${Time}s${RST}"
 }
