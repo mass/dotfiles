@@ -100,8 +100,8 @@ alias mv='mv -i'
 alias more="less"
 alias diff="diff -s"
 alias grep='grep --color=auto'
-alias open="xdg-open"
 alias ftail="tail -f -s 0.1 -n 1000"
+alias stl="st -f \"Inconsolata:pixelsize=15:antialias=true:autohint=true\""
 
 # Util aliases
 alias g="git"
@@ -110,12 +110,7 @@ alias tmuxl="tmux list-sessions"
 alias tigs="tig status"
 alias tigy="tig stash"
 alias mconv="/drive/development/scripts/mconv.sh"
-alias copy="xclip -selection clipboard"
-alias profileme="history | awk '{print \$2}' | awk 'BEGIN {FS=\"|\"}{print \$1}' | sort | uniq -c | sort -n | tail -n 30 | sort -rn"
-alias speedtest="wget -O /dev/null http://speedtest.wdc01.softlayer.com/downloads/test10.zip"
-alias valgrind-leak='valgrind --leak-check=full --show-reachable=yes'
 alias sensors-live="watch -d -n 0.5 sensors"
-alias redreset="redshift -x"
 alias sys-mon="tmuxinator start sys-mon"
 alias sockets="ss -tuprs exclude close-wait exclude time-wait"
 alias sockets-live="watch -n 1 \"date && echo && ss -tuprs exclude close-wait exclude time-wait\""
@@ -198,6 +193,11 @@ print_colors() {
 # Print horizontal rule
 hr() {
   print ${(l:COLUMNS::=:)}
+}
+
+# Use ffmpeg to detect interlaced media
+ffidet() {
+  ffmpeg -filter:v idet -frames:v 200 -an -f rawvideo -y /dev/null -i "$1" 2>&1 | grep 'idet'
 }
 
 ### OS Functions ###############################################################

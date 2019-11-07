@@ -25,12 +25,11 @@ fi
 ln -i -s "$VIMDIR" ~/.vim
 ln -i -s ~/.vim/mass_airline.vim ~/.vim/plug/vim-airline/autoload/airline/themes/mass_airline.vim
 
-# Installs redshift.conf, .gitconfig, .toprc, .tmux.conf
+# Installs .gitconfig, .toprc, .tmux.conf, etc.
 echo "${GREEN}Installing config files${RESET}"
 if [ ! -d ~/.config ]; then
   mkdir ~/.config
 fi
-ln -i -s $DOTDIR/redshift.conf ~/.config/redshift.conf
 ln -i -s $DOTDIR/gitconfig ~/.gitconfig
 ln -i -s $DOTDIR/toprc ~/.toprc
 ln -i -s $DOTDIR/tigrc ~/.tigrc
