@@ -207,7 +207,7 @@ remind() {
     echo -e "pkupdate            : Perform package maitenance"
     echo -e "systemctl --failed  : Check systemd failed units"
     echo -e "journalctl -xb -p 3 : Check systemd logs"
-    echo -e "pacman -Qte         : Review manually installed, unrequired packages"
+    echo -e "pacman -Qtt         : Review all packages not explicitly required"
     echo -e "pacgraph            : Generate visual representation of packages"
 }
 
