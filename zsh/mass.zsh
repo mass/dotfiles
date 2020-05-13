@@ -101,7 +101,7 @@ alias more="less"
 alias diff="diff -s"
 alias grep='grep --color=auto'
 alias ftail="tail -f -s 0.1 -n 1000"
-alias stl="st -f \"Inconsolata:pixelsize=15:antialias=true:autohint=true\""
+alias stl="st -f \"Iosevka Fixed:pixelsize=17:antialias=true:autohint=true\""
 
 # Util aliases
 alias g="git"
@@ -182,11 +182,30 @@ dstat() {
 
 # Print out the full range of 256 colors
 print_colors() {
+  printf "\x1b[0m" # Reset
+  printf "\nBackground\n"
   printf "\x1b[30;47m" # Black foreground
   for i in {0..255}; do
     printf "\x1b[48;5;${i}m %3d " "${i}" # Color background
     ((( $i == 7 )) || (( $i == 15)) || ((( $i > 15 )) && (( ($i-15) % 12 == 0)))) && echo
   done
+
+  printf "\x1b[0m" # Reset
+  printf "\nRegular Foreground\n"
+  printf "\x1b[48;47m" # Black background
+  for i in {0..255}; do
+    printf "\x1b[38;5;${i}m %3d " "${i}" # Color background
+    ((( $i == 7 )) || (( $i == 15)) || ((( $i > 15 )) && (( ($i-15) % 12 == 0)))) && echo
+  done
+
+  printf "\x1b[0m" # Reset
+  printf "\nBold Foreground\n"
+  printf "\x1b[48;47m" # Black background
+  for i in {0..255}; do
+    printf "\x1b[1m\x1b[38;5;${i}m %3d " "${i}" # Color background
+    ((( $i == 7 )) || (( $i == 15)) || ((( $i > 15 )) && (( ($i-15) % 12 == 0)))) && echo
+  done
+
   printf "\x1b[0m" # Reset
 }
 
