@@ -101,7 +101,6 @@ alias more="less"
 alias diff="diff -s"
 alias grep='grep --color=auto'
 alias ftail="tail -f -s 0.1 -n 1000"
-alias stl="st -f \"Iosevka Fixed:pixelsize=17:antialias=true:autohint=true\""
 
 # Util aliases
 alias g="git"
@@ -119,8 +118,12 @@ alias sockets-live="watch -n 1 \"date && echo && ss -tuprs exclude close-wait ex
 alias la="ls -A"
 alias ll="ls -lh"
 alias lla="ll -A"
+alias llv="ls -lhv"
+alias llav="llv -A"
 alias l1="ls -1"
 alias l1a="l1 -A"
+alias l1v="ls -1v"
+alias l1av="l1v -A"
 alias ls='ls --color=auto --group-directories-first'
 
 # Configuration aliases
@@ -150,6 +153,13 @@ fasd_cd() {
     [ -d "$_fasd_ret" ] && cd "$_fasd_ret" || printf %s\n "$_fasd_ret"
   fi
 }
+
+# cd Aliases
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+alias .......="cd ../../../../../.."
 
 ### Utility Functions ##########################################################
 
