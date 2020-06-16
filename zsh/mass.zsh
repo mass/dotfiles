@@ -311,13 +311,6 @@ pkupdate() {
       echo -e "sudo pacman-optimize  : Defragment package database files"
   fi
 
-  local YAOURT_VERSION=$(yaourt --version 2> /dev/null)
-  if [ "${YAOURT_VERSION}" ]; then
-    echo -e "${GRN}\nUsing yaourt!${RST}"
-    echo -e "${GRN}-------------${RST}"
-    yaourt -Syu --aur
-  fi
-
   Time="$(($(date +%s) - Time))"
   echo -e "${GRN}\nPackage Update Complete. Time Elapsed: ${BLD}${RED}${Time}s${RST}"
 }
