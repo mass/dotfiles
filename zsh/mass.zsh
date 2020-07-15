@@ -133,7 +133,7 @@ alias zshrc="vim ~/.dotfiles/zsh/mass.zsh"
 alias zshth="vim ~/.dotfiles/zsh/mass.zsh-theme"
 alias bashrc="vim ~/.bashrc"
 
-# fasd Aliases
+# fasd aliases
 eval "$(fasd --init zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp zsh-wcomp-install)"
 alias fa="fasd -a"
 alias fd="fasd -d"
@@ -202,7 +202,7 @@ print_colors() {
 
   printf "\x1b[0m" # Reset
   printf "\nRegular Foreground\n"
-  printf "\x1b[48;47m" # Black background
+  printf "\x1b[48;5;0m" # Black background
   for i in {0..255}; do
     printf "\x1b[38;5;${i}m %3d " "${i}" # Color background
     ((( $i == 7 )) || (( $i == 15)) || ((( $i > 15 )) && (( ($i-15) % 12 == 0)))) && echo
@@ -210,7 +210,7 @@ print_colors() {
 
   printf "\x1b[0m" # Reset
   printf "\nBold Foreground\n"
-  printf "\x1b[48;47m" # Black background
+  printf "\x1b[48;5;0m" # Black background
   for i in {0..255}; do
     printf "\x1b[1m\x1b[38;5;${i}m %3d " "${i}" # Color background
     ((( $i == 7 )) || (( $i == 15)) || ((( $i > 15 )) && (( ($i-15) % 12 == 0)))) && echo

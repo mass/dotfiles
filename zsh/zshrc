@@ -1,10 +1,6 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
-if systemctl -q is-active graphical.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
-  startx
-fi
-
 ZSHDIR="$HOME/.dotfiles/zsh"
 
 # TODO
