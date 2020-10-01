@@ -294,7 +294,7 @@ pkupdate() {
       echo -e "${GRN}\nRemove Unnecessary Packages${RST}"
       local UP=$(pacman -Qtdq)
       if [ "${UP}" ]; then
-          sudo bash -c "pacman -Qtdq | pacman -Rnssu -"
+          sudo bash -c "pacman -Qtdq | pacman -Rnsu -"
       fi
 
       echo -e "${GRN}\nCleaning Caches${RST}"

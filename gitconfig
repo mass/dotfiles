@@ -89,3 +89,6 @@
 
 [web]
   browser = google-chrome
+
+[pull]
+	ff = only
