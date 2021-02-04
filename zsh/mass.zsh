@@ -108,7 +108,8 @@ alias tmuxa="tmux attach-session -t"
 alias tmuxl="tmux list-sessions"
 alias tigs="tig status"
 alias tigy="tig stash"
-alias mconv="/drive/development/scripts/mconv.sh"
+alias mconv="/scratch/development/scripts/mconv.sh"
+alias mconv-tv="/scratch/development/scripts/mconv-tv.sh"
 alias sensors-live="watch -d -n 0.5 sensors"
 alias sys-mon="tmuxinator start sys-mon"
 alias sockets="ss -tuprs exclude close-wait exclude time-wait"
@@ -226,7 +227,20 @@ hr() {
 
 # Use ffmpeg to detect interlaced media
 ffidet() {
-  ffmpeg -filter:v idet -frames:v 200 -an -f rawvideo -y /dev/null -i "$1" 2>&1 | grep 'idet'
+  ffmpeg -analyzeduration 2147483647 -probesize 2147483647 -filter:v idet -frames:v 1000 -an -f rawvideo -y /dev/null -i "$1" 2>&1 | grep 'idet'
+}
+
+# Use ffprobe to output media information in JSON format
+ffjson() {
+  ffprobe -analyzeduration 2147483647 -probesize 2147483647 -show_streams -show_format -print_format json -pretty "$1" | jq .
+}
+
+# Upload files in a standardized way using the s3 CLI
+s3s() {
+  aws s3 cp $1 $2 --storage-class STANDARD --metadata "md5=$(md5sum $1 | cut -f1 -d' ')"
+}
+s3g() {
+  aws s3 cp $1 $2 --storage-class GLACIER --metadata "md5=$(md5sum $1 | cut -f1 -d' ')"
 }
 
 ### OS Functions ###############################################################
