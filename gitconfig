@@ -10,6 +10,9 @@
 
 [alias]
   b = branch
+  bv = branch --verbose
+  bva = branch --verbose --all
+  bD = branch -D
   c = commit --verbose
   cdi = clean -di
   cdxf = clean -dxf
@@ -24,6 +27,7 @@
   p = push
   pu = push -u
   r = reset
+  rpo = remote prune origin
   s = stash
   st = status -sb
 
