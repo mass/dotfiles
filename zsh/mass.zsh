@@ -302,6 +302,9 @@ pkupdate() {
       echo -e "${GRN}\nUpdating Package Databases${RST}"
       sudo pacman -Syy $@
 
+      echo -e "${GRN}\nUpdating File Databases${RST}"
+      sudo pacman -Fyy $@
+
       echo -e "${GRN}\nUpdating Packages${RST}"
       sudo pacman -Suu --needed $@
 
