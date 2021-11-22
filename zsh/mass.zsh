@@ -100,7 +100,7 @@ alias mv='mv -i'
 alias more="less"
 alias diff="diff -s"
 alias grep='grep --color=auto'
-alias ftail="tail -f -s 0.1 -n 1000"
+alias ftail="tail -F -s 0.25 -n 1000"
 
 # Util aliases
 alias g="git"
