@@ -12,7 +12,7 @@ PROMPT="${Y}["\
 "%(1j, [${B}‽%j${Y}],)"\
 " [${G}%~${Y}]"\
 '$(git_prompt_string)'\
-"${Y}%(!,#,❯) ${C}"
+" ${Y}%(!,#,❯) ${C}"
 
 # Right Side Prompt
 RPROMPT="%(1?, ${Y}[${R}%?${Y}] ,)"\

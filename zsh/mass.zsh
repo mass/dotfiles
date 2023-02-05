@@ -63,11 +63,19 @@ bindkey '\ee' edit-command-line
 
 ### Variables ##################################################################
 
+# PATH stuff
+pathadd() {
+  if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+    PATH="${PATH:+"$PATH:"}$1"
+  fi
+}
+pathadd "${HOME}/opt/bin"
+if hash ruby 2>/dev/null; then
+  pathadd "`ruby -e 'puts Gem.user_dir'`/bin"
+fi
+
 # Useful environment variables
 export EDITOR=vim
-if hash ruby 2>/dev/null; then
-  export PATH="${PATH}:`ruby -e 'puts Gem.user_dir'`/bin"
-fi
 
 # Color variables
 RST=$'\x1b[0m'
@@ -101,6 +109,7 @@ alias more="less"
 alias diff="diff -s"
 alias grep='grep --color=auto'
 alias ftail="tail -F -s 0.25 -n 1000"
+alias ipc="ip -c"
 
 # Util aliases
 alias g="git"
@@ -304,6 +313,9 @@ pkupdate() {
 
       echo -e "${GRN}\nUpdating File Databases${RST}"
       sudo pacman -Fyy $@
+
+      echo -e "${GRN}\nUpdating Keyring${RST}"
+      sudo pacman -S --needed archlinux-keyring $@
 
       echo -e "${GRN}\nUpdating Packages${RST}"
       sudo pacman -Suu --needed $@
