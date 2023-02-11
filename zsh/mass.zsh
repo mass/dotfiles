@@ -121,7 +121,8 @@ alias mconv="/scratch/development/scripts/mconv.sh"
 alias mconv-tv="/scratch/development/scripts/mconv-tv.sh"
 alias sensors-live="watch -d -n 0.5 sensors"
 alias sys-mon="tmuxinator start sys-mon"
-alias sockets="ss -tuprs exclude close-wait exclude time-wait"
+alias sockets="ss -4tuapns exclude close-wait exclude time-wait"
+alias sockets-full="ss -4tuapnsoemi --tos --cgroup exclude close-wait exclude time-wait"
 alias sockets-live="watch -n 1 \"date && echo && ss -tuprs exclude close-wait exclude time-wait\""
 
 # ls aliases
@@ -342,4 +343,37 @@ pkupdate() {
 
   Time="$(($(date +%s) - Time))"
   echo -e "${GRN}\nPackage Update Complete. Time Elapsed: ${BLD}${RED}${Time}s${RST}"
+}
+
+# Manual Package Cleaning
+pkclean() {
+  # Run everything as root
+  sudo echo ""
+
+  Time="$(date +%s)"
+  echo -e "${GRN}Starting Package Clean${RST}"
+  echo -e "${GRN}======================${RST}"
+
+  if [[ $# -gt 0 ]]; then
+    echo -e "${BLD}${CYN}Arguments: $@${RST}"
+  fi
+
+  # Use pacman if present
+  local PACMAN_VERSION=$(pacman --version 2> /dev/null)
+  if [ "${PACMAN_VERSION}" ]; then
+      echo -e "${GRN}\nUsing pacman!${RST}"
+      echo -e "${GRN}-------------${RST}"
+
+      echo -e "${GRN}\nRemove Unnecessary Packages${RST}"
+      local UP=$(pacman -Qtdq)
+      if [ "${UP}" ]; then
+          sudo bash -c "pacman -Qtdq | pacman -Rnssu -"
+      fi
+
+      echo -e "${GRN}\nCleaning Caches${RST}"
+      sudo pacman -Scc $@ <<< Y <<< Y
+  fi
+
+  Time="$(($(date +%s) - Time))"
+  echo -e "${GRN}\nPackage Clean Complete. Time Elapsed: ${BLD}${RED}${Time}s${RST}"
 }
