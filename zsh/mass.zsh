@@ -235,6 +235,11 @@ hr() {
   print ${(l:COLUMNS::=:)}
 }
 
+# Use tree command in interactive mode
+ltree() {
+  tree $@ | less
+}
+
 # Use ffmpeg to detect interlaced media
 ffidet() {
   ffmpeg -analyzeduration 2147483647 -probesize 2147483647 -filter:v idet -frames:v 1000 -an -f rawvideo -y /dev/null -i "$1" 2>&1 | grep 'idet'
