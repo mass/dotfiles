@@ -61,6 +61,17 @@ autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey '\ee' edit-command-line
 
+### SSH Agent ##################################################################
+
+SSH_ENV="${HOME}/.ssh/env"
+source "${SSH_ENV}"
+ps -ef | grep ${SSH_AGENT_PID} |& grep ssh-agent >/dev/null || {
+  /usr/bin/ssh-agent | sed 's/^echo/#echo/' >! "${SSH_ENV}"
+  chmod 600 "${SSH_ENV}"
+  source "${SSH_ENV}"
+  echo "started new ssh-agent pid=(${SSH_AGENT_PID})"
+}
+
 ### Variables ##################################################################
 
 # PATH stuff
