@@ -6,16 +6,25 @@ ZSHDIR="$HOME/.dotfiles/zsh"
 # TODO
 # - https://github.com/peterhurford/git-it-on.zsh
 
+# NB: I used to use zsh-syntax-highlighting but it does a ridiculous amount of
+# operations on every keystroke, which was especially problematic in NFS dirs.
+
 # Core zsh config
 source $ZSHDIR/lib/key-bindings.zsh
 source $ZSHDIR/lib/git-prompt.zsh
 
+# Plugin pre-options
+ZSH_AUTOSUGGEST_STRATEGY=(history)
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=32
+
 # Plugins
-source $ZSHDIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $ZSHDIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $ZSHDIR/plugins/zsh-completions/zsh-completions.plugin.zsh
 source $ZSHDIR/plugins/calc/calc.plugin.zsh
 source $ZSHDIR/plugins/fasd/fasd
+
+# Plugin post-options
+unset ZSH_AUTOSUGGEST_USE_ASYNC
 
 # Custom config
 source $ZSHDIR/mass.zsh

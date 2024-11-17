@@ -8,7 +8,6 @@ C=$'%{\x1b[0m%}'
 # Left Side Prompt
 PROMPT="${Y}["\
 "${R}%n${Y}@${R}%M${Y}]"\
-"%(2L, [${B}↓%L${Y}],)"\
 "%(1j, [${B}‽%j${Y}],)"\
 " [${G}%~${Y}]"\
 '$(git_prompt_string)'\

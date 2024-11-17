@@ -137,6 +137,10 @@ alias sockets-full="ss -4tuapnsoemi --tos --cgroup exclude close-wait exclude ti
 alias sockets-live="watch -n 1 \"date && echo && ss -tuprs exclude close-wait exclude time-wait\""
 
 # ls aliases
+ls() {
+  [[ "$(stat --file-system --format=%T .)" == "nfs" ]] && COLOR="never" || COLOR="auto"
+  /usr/bin/ls --color="$COLOR" --group-directories-first "$@"
+}
 alias la="ls -A"
 alias ll="ls -lh"
 alias lla="ll -A"
@@ -146,7 +150,6 @@ alias l1="ls -1"
 alias l1a="l1 -A"
 alias l1v="ls -1v"
 alias l1av="l1v -A"
-alias ls='ls --color=auto --group-directories-first'
 
 # Configuration aliases
 alias shload="exec zsh"
