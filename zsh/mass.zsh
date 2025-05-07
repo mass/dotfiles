@@ -218,7 +218,7 @@ dstat() {
 # Print out the full range of 256 colors
 print_colors() {
   printf "\x1b[0m" # Reset
-  printf "\nBackground\n"
+  printf "\nColor background\n"
   printf "\x1b[30;47m" # Black foreground
   for i in {0..255}; do
     printf "\x1b[48;5;${i}m %3d " "${i}" # Color background
@@ -229,15 +229,47 @@ print_colors() {
   printf "\nRegular Foreground\n"
   printf "\x1b[48;5;0m" # Black background
   for i in {0..255}; do
-    printf "\x1b[38;5;${i}m %3d " "${i}" # Color background
+    printf "\x1b[38;5;${i}m %3d " "${i}"
     ((( $i == 7 )) || (( $i == 15)) || ((( $i > 15 )) && (( ($i-15) % 12 == 0)))) && echo
   done
 
   printf "\x1b[0m" # Reset
-  printf "\nBold Foreground\n"
+  printf "\n\x1b[1mBold Foreground\n"
   printf "\x1b[48;5;0m" # Black background
   for i in {0..255}; do
-    printf "\x1b[1m\x1b[38;5;${i}m %3d " "${i}" # Color background
+    printf "\x1b[1m\x1b[38;5;${i}m %3d " "${i}"
+    ((( $i == 7 )) || (( $i == 15)) || ((( $i > 15 )) && (( ($i-15) % 12 == 0)))) && echo
+  done
+
+  printf "\x1b[0m" # Reset
+  printf "\n\x1b[3mItalics Foreground\n"
+  printf "\x1b[48;5;0m" # Black background
+  for i in {0..255}; do
+    printf "\x1b[3m\x1b[38;5;${i}m %3d " "${i}"
+    ((( $i == 7 )) || (( $i == 15)) || ((( $i > 15 )) && (( ($i-15) % 12 == 0)))) && echo
+  done
+
+  printf "\x1b[0m" # Reset
+  printf "\n\x1b[4mUnderlined Foreground\n"
+  printf "\x1b[48;5;0m" # Black background
+  for i in {0..255}; do
+    printf "\x1b[4m\x1b[38;5;${i}m %3d " "${i}"
+    ((( $i == 7 )) || (( $i == 15)) || ((( $i > 15 )) && (( ($i-15) % 12 == 0)))) && echo
+  done
+
+  printf "\x1b[0m" # Reset
+  printf "\n\x1b[9mStrikethrough Foreground\n"
+  printf "\x1b[48;5;0m" # Black background
+  for i in {0..255}; do
+    printf "\x1b[9m\x1b[38;5;${i}m %3d " "${i}"
+    ((( $i == 7 )) || (( $i == 15)) || ((( $i > 15 )) && (( ($i-15) % 12 == 0)))) && echo
+  done
+
+  printf "\x1b[0m" # Reset
+  printf "\n\x1b[1m\x1b[3m\x1b[4m\x1b[9mEverything Foreground\n"
+  printf "\x1b[48;5;0m" # Black background
+  for i in {0..255}; do
+    printf "\x1b[1m\x1b[3m\x1b[4m\x1b[9m\x1b[38;5;${i}m %3d " "${i}"
     ((( $i == 7 )) || (( $i == 15)) || ((( $i > 15 )) && (( ($i-15) % 12 == 0)))) && echo
   done
 
