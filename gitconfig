@@ -84,6 +84,7 @@
 [merge]
   tool = vim
   stat = true
+  conflictstyle = diff3
 
 [mergetool]
   prompt = true
@@ -95,4 +96,4 @@
   browser = google-chrome
 
 [pull]
-	ff = only
+  ff = only
