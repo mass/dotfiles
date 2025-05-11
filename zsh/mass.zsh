@@ -304,6 +304,14 @@ s3g() {
   aws s3 cp $1 $2 --storage-class GLACIER --metadata "md5=$(md5sum $1 | cut -f1 -d' ')"
 }
 
+# Copy text from stdin to system clipboard, via OSC52
+clip() {
+  STR=$(base64 - )
+  printf '\e]52;;'
+  printf "${STR}"
+  printf '\e\\'
+}
+
 ### OS Functions ###############################################################
 
 # Remind me of common maitenance commands
